@@ -6,8 +6,7 @@
 //   stage("Compilation") {
 //     sh "./mvnw clean install -DskipTests"
 //   }
-
- pipeline {
+pipeline {
     agent any
 
     stages {
@@ -20,28 +19,28 @@
         stage('Build') {
             steps {
                 // Build the project using Maven
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
         stage('Test') {
             steps {
                 // Run unit tests
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
         stage('Package') {
             steps {
                 // Package the application
-                sh 'mvn package'
+                bat 'mvn package'
             }
         }
         stage('Deploy') {
             steps {
-                // Deploy the application (example for a Tomcat server)
-                sh '''
-                cp target/your-app.jar /path/to/deployment/folder/
-                cd /path/to/deployment/folder/
-                nohup java -jar your-app.jar &
+                // Deploy the application
+                bat '''
+                copy target\\your-app.jar C:\\path\\to\\deployment\\folder\\
+                cd C:\\path\\to\\deployment\\folder\\
+                start java -jar your-app.jar
                 '''
             }
         }
@@ -59,4 +58,5 @@
             echo 'Pipeline failed!'
         }
     }
+}
 }
