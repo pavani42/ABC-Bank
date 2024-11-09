@@ -48,17 +48,24 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            // Clean up workspace
-            cleanWs()
-        }
+ post {
         success {
-            echo 'Pipeline succeeded check deployment!'
+            script {
+                def gitCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                    sh "curl -H 'Authorization: token ${env.GITHUB_TOKEN}' -X POST -d '{\"state\": \"success\", \"target_url\": \"${env.BUILD_URL}\", \"description\": \"The build succeeded.\", \"context\": \"jenkins-ci\"}' https://api.github.com/repos/your-username/your-repo/statuses/${gitCommit}"
+                }
+            }
+            echo 'Pipeline succeeded!'
         }
         failure {
+            script {
+                def gitCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                    sh "curl -H 'Authorization: token ${env.GITHUB_TOKEN}' -X POST -d '{\"state\": \"failure\", \"target_url\": \"${env.BUILD_URL}\", \"description\": \"The build failed.\", \"context\": \"jenkins-ci\"}' https://api.github.com/repos/your-username/your-repo/statuses/${gitCommit}"
+                }
+            }
             echo 'Pipeline failed!'
         }
-    }
+  }
 }
