@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.bankingapplication.BankingApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.83 s -- in com.bankingapplication.BankingApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.666 s -- in com.bankingapplication.BankingApplicationTests
