@@ -38,8 +38,8 @@ pipeline {
             steps {
                 // Deploy the application
                 bat '''
-                copy target\\example-application.jar C:\\Users\\S S Rao\\capstone\\banking-application\target\\
-                cd C:\\Users\\S S Rao\\capstone\\banking-application\target\\
+                copy target\\example-application.jar C:\\Users\\S S Rao\\capstone\\banking-application\\target\\
+                cd C:\\Users\\S S Rao\\capstone\\banking-application\\target\\
                 start java -jar example-application.jar
                 '''
             }
