@@ -53,7 +53,7 @@ pipeline {
             script {
                 def gitCommit = bat(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
-                    bat "curl -H \"Authorization: token ${env.GITHUB_TOKEN}\" -X POST -d '{\"state\": \"success\", \"target_url\": \"${env.BUILD_URL}\", \"description\": \"The build succeeded.\", \"context\": \"jenkins-ci\"}' https://github.com/pavani42/ABC-Bank/statuses/${gitCommit}"
+                    bat "curl -H \"Authorization: token %GITHUB_TOKEN%\" -X POST -d '{\"state\": \"success\", \"target_url\": \"${env.BUILD_URL}\", \"description\": \"The build succeeded.\", \"context\": \"jenkins-ci\"}' https://api.github.com/repos/pavani42/ABC-Bank/statuses/${gitCommit}"
                 }
             }
             echo 'Pipeline succeeded!'
@@ -62,7 +62,7 @@ pipeline {
             script {
                 def gitCommit = bat(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
-                    bat "curl -H \"Authorization: token ${env.GITHUB_TOKEN}\" -X POST -d '{\"state\": \"failure\", \"target_url\": \"${env.BUILD_URL}\", \"description\": \"The build failed.\", \"context\": \"jenkins-ci\"}' https://github.com/pavani42/ABC-Bank/statuses/${gitCommit}"
+                    bat "curl -H \"Authorization: token %GITHUB_TOKEN%\" -X POST -d '{\"state\": \"failure\", \"target_url\": \"${env.BUILD_URL}\", \"description\": \"The build failed.\", \"context\": \"jenkins-ci\"}' https://api.github.com/repos/pavani42/ABC-Bank/statuses/${gitCommit}"
                 }
             }
             echo 'Pipeline failed!'
