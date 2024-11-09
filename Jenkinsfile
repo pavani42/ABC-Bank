@@ -55,7 +55,7 @@ pipeline {
             cleanWs()
         }
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Pipeline succeeded check deployment!'
         }
         failure {
             echo 'Pipeline failed!'
