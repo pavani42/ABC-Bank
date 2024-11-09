@@ -38,9 +38,9 @@ pipeline {
             steps {
                 // Deploy the application
                 bat '''
-                copy target\\your-app.jar C:\\path\\to\\deployment\\folder\\
-                cd C:\\path\\to\\deployment\\folder\\
-                start java -jar your-app.jar
+                copy target\\example-application.jar C:\\Users\\S S Rao\\capstone\\banking-application\target\\
+                cd C:\\Users\\S S Rao\\capstone\\banking-application\target\\
+                start java -jar example-application.jar
                 '''
             }
         }
