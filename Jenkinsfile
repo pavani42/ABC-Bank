@@ -1,26 +1,62 @@
-node {
-  stage("Clone the project") {
-    git branch: 'master', url: 'https://github.com/pavani42/ABC-Bank.git'
-  }
+// node {
+//   stage("Clone the project") {
+//     git branch: 'master', url: 'https://github.com/pavani42/ABC-Bank.git'
+//   }
 
-  stage("Compilation") {
-    sh "./mvnw clean install -DskipTests"
-  }
+//   stage("Compilation") {
+//     sh "./mvnw clean install -DskipTests"
+//   }
 
-  stages {
-        stage('Example') {
+ pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
             steps {
-                echo 'Hello World'
+                // Checkout code from version control
+                git branch: 'master', url: 'https://github.com/pavani42/ABC-Bank.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Build the project using Maven
+                sh 'mvn clean install'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Run unit tests
+                sh 'mvn test'
+            }
+        }
+        stage('Package') {
+            steps {
+                // Package the application
+                sh 'mvn package'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy the application (example for a Tomcat server)
+                sh '''
+                cp target/your-app.jar /path/to/deployment/folder/
+                cd /path/to/deployment/folder/
+                nohup java -jar your-app.jar &
+                '''
             }
         }
     }
 
-  stage("Tests and Deployment") {
-    stage("Runing unit tests") {
-      sh "./mvnw test -Punit"
+    post {
+        always {
+            // Clean up workspace
+            cleanWs()
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
     }
-    stage("Deployment") {
-      sh 'nohup ./mvnw spring-boot:run -Dserver.port=8001 &'
-    }
-  }
 }
