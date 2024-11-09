@@ -7,6 +7,14 @@ node {
     sh "./mvnw clean install -DskipTests"
   }
 
+  stages {
+        stage('Example') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+
   stage("Tests and Deployment") {
     stage("Runing unit tests") {
       sh "./mvnw test -Punit"
